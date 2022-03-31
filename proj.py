@@ -2,18 +2,13 @@
 #morphology final project etc etc
 
 
-import fasttext, editdistance
+import fasttext, editdistance, random
 from fasttext import util
 import numpy as np
 import io
 
-
-print(editdistance.distance('cat', 'bat'))
-
 def cosine(veca, vecb):
     return (np.dot(veca, vecb)/(np.linalg.norm(veca)*np.linalg.norm(vecb)))
-
-print(cosine([1, 2, 1], [1, 1, 1]))
 
 
 # creates a dictionary ([str -> map object]) that maps a word to its vector representation
@@ -31,5 +26,28 @@ def load_vectors(fname, nb_of_words):
             break
     return data
 
+def filter(word):
+    return True
+
+# randomly samples n word vectors from two dictionaries of words to vectors,
+# one with sub-word info, the other without and outputs two dictonaries containing only the samples
+# the filter function passed as a parameter must output true or false according to whether we want to keep the word or not
+def sample_words(with_sub_word, no_sub_word, n, filter):
+    sample_sw = {}
+    sample_no_sw = {}
+    while len(sample_no_sw) < n:
+        while True:
+            word = random.choice(list(no_sub_word.keys()))
+            if filter(word):
+                break
+        sample_sw[word] = with_sub_word[word]
+        sample_no_sw[word] = no_sub_word[word]
+    return sample_sw, sample_no_sw
+
 data1 = load_vectors("wiki-news-300d-1M.vec", 100)
 data2 = load_vectors("wiki-news-300d-1M-subword.vec", 100)
+
+sample1, sample2 = sample_words(data1, data2, 10, filter)
+
+print(data1.keys())
+print(len(sample1.keys()))
