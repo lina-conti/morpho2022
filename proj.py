@@ -26,8 +26,11 @@ def load_vectors(fname, nb_of_words):
             break
     return data
 
-def filter(word):
-    return True
+def filter(word): 
+    punct = re.compile('[^a-z]')
+    if punct.search(word):
+        return True
+    return False
 
 # randomly samples n word vectors from two dictionaries of words to vectors,
 # one with sub-word info, the other without and outputs two dictonaries containing only the samples
