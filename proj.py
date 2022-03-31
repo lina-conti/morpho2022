@@ -13,8 +13,9 @@ def cosine(veca, vecb):
 
 
 # creates a dictionary ([str -> map object]) that maps a word to its vector representation
-# by reading the first nb_of_words words of fname file (which should be in the .vec format of fasttext)
-def load_vectors(fname, nb_of_words):
+# by reading fname file (which should be in the .vec format of fasttext)
+# proportion indicates the proportion of word vectors we want to read from the file (a float between 0 and 1)
+def load_vectors(fname, proportion):
     fin = io.open(fname, 'r', encoding='utf-8', newline='\n', errors='ignore')
     n, d = map(int, fin.readline().split())
     data = {}
@@ -23,11 +24,12 @@ def load_vectors(fname, nb_of_words):
         tokens = line.rstrip().split(' ')
         data[tokens[0]] = map(float, tokens[1:])
         i += 1
-        if i >= nb_of_words:
+        if i >= n * proportion:
             break
+    fin.close()
     return data
 
-def filter(word): 
+def filter(word):
     punct = re.compile('[^a-z]')
     if punct.search(word):
         return True
@@ -48,10 +50,9 @@ def sample_words(with_sub_word, no_sub_word, n, filter):
         sample_no_sw[word] = no_sub_word[word]
     return sample_sw, sample_no_sw
 
-data1 = load_vectors("wiki-news-300d-1M.vec", 100)
-data2 = load_vectors("wiki-news-300d-1M-subword.vec", 100)
+data1 = load_vectors("wiki-news-300d-1M.vec", 0.5)
+data2 = load_vectors("wiki-news-300d-1M-subword.vec", 0.5)
 
 sample1, sample2 = sample_words(data1, data2, 10, filter)
 
-print(data1.keys())
-print(len(sample1.keys()))
+print(len(data1.keys()))
