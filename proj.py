@@ -6,6 +6,7 @@ import fasttext, editdistance, random
 from fasttext import util
 import numpy as np
 import io
+import re
 
 def cosine(veca, vecb):
     return (np.dot(veca, vecb)/(np.linalg.norm(veca)*np.linalg.norm(vecb)))
