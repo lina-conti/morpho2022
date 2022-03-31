@@ -31,5 +31,16 @@ def load_vectors(fname, nb_of_words):
             break
     return data
 
+def filter(word): 
+    punct = re.compile('[^a-z]')
+    if punct.search(word):
+        return True
+    return False
+
+print(filter('apples'))
+print(filter('appl3s'))
+print(filter('Apples'))
+print(filter('apples.'))
+
 data1 = load_vectors("wiki-news-300d-1M.vec", 100)
 data2 = load_vectors("wiki-news-300d-1M-subword.vec", 100)
