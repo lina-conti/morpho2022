@@ -17,7 +17,7 @@ def cosine(veca, vecb):
 # proportion indicates the proportion of word vectors we want to read from the file (a float between 0 and 1)
 def load_vectors(fname, proportion):
     fin = io.open(fname, 'r', encoding='utf-8', newline='\n', errors='ignore')
-    n, d = map(int, fin.readline().split())
+    n, d = map(int, fin.readline().split()) # n is the number of vectors, d is the vector size
     data = {}
     i = 0
     for line in fin:
@@ -50,9 +50,30 @@ def sample_words(with_sub_word, no_sub_word, n, filter):
         sample_no_sw[word] = no_sub_word[word]
     return sample_sw, sample_no_sw
 
-data1 = load_vectors("wiki-news-300d-1M.vec", 0.5)
-data2 = load_vectors("wiki-news-300d-1M-subword.vec", 0.5)
+# sample is a dictionary from words to vectors
+# it will be written to a .vec file following fasttext conventions
+# content already present in fname will be overwritten, fname will be created if it doesn't exist
+def write_to_file(fname, sample):
+    f = open(fname, "w")
+    f.write(f"{len(sample)} 300")
+    for word in sample:
+        f.write(f"\n{word}")
+        for component in sample[word]:
+            f.write(f" {component}")
+    f.close()
+
+# ------------------------------- MAIN -----------------------------------------------------
+
+data1 = load_vectors("wiki-news-300d-1M.vec", 0.01)
+data2 = load_vectors("wiki-news-300d-1M-subword.vec", 0.01)
 
 sample1, sample2 = sample_words(data1, data2, 10, filter)
 
-print(len(data1.keys()))
+write_to_file("test.vec", sample1)
+
+test = load_vectors("test.vec", 1)
+for i,j in test.items():
+    print(i)
+print("\n\n\n")
+for i in sample1.items():
+    print(i)
