@@ -64,16 +64,10 @@ def write_to_file(fname, sample):
 
 # ------------------------------- MAIN -----------------------------------------------------
 
-data1 = load_vectors("wiki-news-300d-1M.vec", 0.01)
-data2 = load_vectors("wiki-news-300d-1M-subword.vec", 0.01)
+data_set_no_sw = load_vectors("wiki-news-300d-1M.vec", 0.5)
+data_set_sw = load_vectors("wiki-news-300d-1M-subword.vec", 0.5)
 
-sample1, sample2 = sample_words(data1, data2, 10, filter)
+sample_sw, sample_no_sw = sample_words(data1, data2, 10, filter)
 
-write_to_file("test.vec", sample1)
-
-test = load_vectors("test.vec", 1)
-for i,j in test.items():
-    print(i)
-print("\n\n\n")
-for i in sample1.items():
-    print(i)
+write_to_file("sample_sw.vec", sample_sw)
+write_to_file("sample_no_sw.vec", sample_no_sw)
