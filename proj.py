@@ -22,7 +22,7 @@ def load_vectors(fname, nb_of_words):
     i = 0
     for line in fin:
         tokens = line.rstrip().split(' ')
-        data[tokens[0]] = map(float, tokens[1:])
+        data[tokens[0]] = list(map(float, tokens[1:]))
         i += 1
         if i >= nb_of_words:
             break
