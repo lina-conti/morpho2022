@@ -9,6 +9,7 @@ import io
 import re
 import random
 from sklearn import linear_model
+from sklearn.model_selection import train_test_split
 from matplotlib import pyplot as plt
 
 def cosine(veca, vecb):
@@ -68,7 +69,7 @@ def write_to_file(fname, sample):
     f.close()
 
 def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
-    '''get the edit distance and cosine similarities in both datasets for a specified 
+    '''get the edit distance and cosine similarities in both datasets for a specified
     number of words to be compared'''
     words = []
     edit_distance = []
@@ -86,42 +87,22 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
 
     return words, edit_distance, s1_cosine_dists, s2_cosine_dists
 
-# ------------------------------- LINA'S MAIN -----------------------------------------------------
+# ------------------------------- MAIN -----------------------------------------------------
 
 
 samples_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 1)
 samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 1)
 
+words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(samples_no_sw, samples_set_sw, 500)
 
-
-# ------------------------------- ISAAC'S MAIN -----------------------------------------------------
-
-
-data1 = load_vectors("wiki-news-300d-1M.vec", 0.01)
-data2 = load_vectors("wiki-news-300d-1M.vec", 0.01)
-
-sample1, sample2 = sample_words(data1, data2, 20, filter)
-
-print(sample1.keys())
-print(len(sample1.keys()))
-
-words, e_dists, s1_cosines, s2_cosines = get_compare_pairs(sample1, sample2, 10)
-print(words, e_dists, s1_cosines, s2_cosines)
-#python
-#morphology final project etc etc
+X_train_sw, X_test_sw, y_train_sw, y_test_sw = train_test_split(e_dists, sw_cosines, test_size=0.2, random_state=42)
+X_train_no_sw, X_test_no_sw, y_train_no_sw, y_test_no_sw = train_test_split(e_dists, no_sw_cosines, test_size=0.2, random_state=42)
 
 r_with = linear_model.LinearRegression()
 r_without = linear_model.LinearRegression()
 
-r_with.fit(e_dists, s1_cosines)
-r_without.fit(e_dists, s2_cosines)
+r_with.fit(X_train_sw, y_train_sw)
+r_without.fit(X_train_no_sw, y_train_no_sw)
 
-plt.scatter(e_dists, s1_cosines, color = 'red')
-plt.scatter(e_dists, s2_cosines, color = 'blue')
-
-plt.plot(e_dists, r_with.predict(e_dists), color = 'red')
-plt.plot(e_dists, r_without.predict(e_dists), color = 'blue')
-
-plt.show()
-
-
+print(f"R^2 with subword: {r_with.score(X_test_sw, y_test_sw)}")
+print(f"R^2 without subword: {r_with.score(X_test_no_sw, y_test_no_sw)}")
