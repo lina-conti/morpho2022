@@ -87,11 +87,13 @@ def get_compare_pairs(sample1:dict, sample2:dict):
 data_set_no_sw = load_vectors("wiki-news-300d-1M.vec", 0.5)
 data_set_sw = load_vectors("wiki-news-300d-1M-subword.vec", 0.5)
 
-sample_sw, sample_no_sw = sample_words(data1, data2, 10, filter)
+sample_sw, sample_no_sw = sample_words(data_set_sw, data_set_no_sw, 1000, filter)
 
-write_to_file("sample_sw.vec", sample_sw)
-write_to_file("sample_no_sw.vec", sample_no_sw)
+write_to_file("morpho2022/sample_sw.vec", sample_sw)
+write_to_file("morpho2022/sample_no_sw.vec", sample_no_sw)
 
+
+"""
 # ------------------------------- ISAAC'S MAIN -----------------------------------------------------
 
 
@@ -117,3 +119,4 @@ for i,j in test.items():
 print("\n\n\n")
 for i in sample1.items():
     print(i)
+"""
