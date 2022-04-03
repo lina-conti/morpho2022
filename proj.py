@@ -85,8 +85,8 @@ def get_compare_pairs(sample1:dict, sample2:dict):
 # ------------------------------- LINA'S MAIN -----------------------------------------------------
 
 
-samples_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 0.5)
-samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 0.5)
+samples_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 1)
+samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 1)
 
 
 
