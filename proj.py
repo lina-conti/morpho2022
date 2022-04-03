@@ -44,6 +44,7 @@ def sample_words(with_sub_word, no_sub_word, n, filter):
         while True:
             word = random.choice(list(no_sub_word.keys()))
             if filter(word):
+                #print('illegal symbol detected')
                 break
         sample_sw[word] = with_sub_word[word]
         sample_no_sw[word] = no_sub_word[word]
