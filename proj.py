@@ -8,6 +8,8 @@ import numpy as np
 import io
 import re
 import random
+from sklearn import linear_model
+from matplotlib import pyplot as plt
 
 def cosine(veca, vecb):
     return (np.dot(veca, vecb)/(np.linalg.norm(veca)*np.linalg.norm(vecb)))
@@ -65,20 +67,22 @@ def write_to_file(fname, sample):
             f.write(f" {component}")
     f.close()
 
-def get_compare_pairs(sample1:dict, sample2:dict):
+def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
+    '''get the edit distance and cosine similarities in both datasets for a specified 
+    number of words to be compared'''
     words = []
     edit_distance = []
     s1_cosine_dists = []
     s2_cosine_dists = []
 
-    w1 = random.sample(sample1.keys(), 1)[0] #random.sample returns a list of length 1, we take the item
-    w2 = random.sample(sample1.keys(), 1)[0]
-
-    #print(f'word: {w1}, vec: {sample1[w1]}')
-    words.append((w1, w2))
-    edit_distance.append(editdistance.distance(w1, w2))
-    s1_cosine_dists.append(cosine(sample1[w1], sample2[w2]))
-    s2_cosine_dists.append(cosine(sample2[w1], sample2[w2]))
+    for i in range(0, num_comparisons):
+        w1 = random.sample(sample1.keys(), 1)[0] #random.sample returns a list of length 1, we take the item
+        w2 = random.sample(sample1.keys(), 1)[0]
+        words.append((w1, w2))
+        edit_distance.append(editdistance.distance(w1, w2))
+        s1_cosine_dists.append(cosine(sample1[w1], sample2[w2]))
+        s2_cosine_dists.append(cosine(sample2[w1], sample2[w2]))
+    edit_distance = np.array(edit_distance)[:, np.newaxis]
 
     return words, edit_distance, s1_cosine_dists, s2_cosine_dists
 
@@ -96,24 +100,30 @@ write_to_file("sample_no_sw.vec", sample_no_sw)
 
 
 data1 = load_vectors("wiki-news-300d-1M.vec", 0.01)
-data2 = load_vectors("wiki-news-300d-1M-subword.vec", 0.01)
+data2 = load_vectors("wiki-news-300d-1M.vec", 0.01)
 
-sample1, sample2 = sample_words(data1, data2, 10, filter)
+sample1, sample2 = sample_words(data1, data2, 20, filter)
 
 print(sample1.keys())
 print(len(sample1.keys()))
 
-words, e_dists, s1_cosines, s2_cosines = get_compare_pairs(sample1, sample2)
+words, e_dists, s1_cosines, s2_cosines = get_compare_pairs(sample1, sample2, 10)
 print(words, e_dists, s1_cosines, s2_cosines)
 #python
 #morphology final project etc etc
 
+r_with = linear_model.LinearRegression()
+r_without = linear_model.LinearRegression()
 
-write_to_file("test.vec", sample1)
+r_with.fit(e_dists, s1_cosines)
+r_without.fit(e_dists, s2_cosines)
 
-test = load_vectors("test.vec", 1)
-for i,j in test.items():
-    print(i)
-print("\n\n\n")
-for i in sample1.items():
-    print(i)
+plt.scatter(e_dists, s1_cosines, color = 'red')
+plt.scatter(e_dists, s2_cosines, color = 'blue')
+
+plt.plot(e_dists, r_with.predict(e_dists), color = 'red')
+plt.plot(e_dists, r_without.predict(e_dists), color = 'blue')
+
+plt.show()
+
+
