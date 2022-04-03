@@ -88,40 +88,52 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
 
 # ------------------------------- LINA'S MAIN -----------------------------------------------------
 
-
+'''
 samples_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 1)
 samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 1)
-
+'''
 
 
 # ------------------------------- ISAAC'S MAIN -----------------------------------------------------
 
 
-data1 = load_vectors("wiki-news-300d-1M.vec", 0.01)
-data2 = load_vectors("wiki-news-300d-1M.vec", 0.01)
+data_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", 1)
+data_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", 1)
 
-sample1, sample2 = sample_words(data1, data2, 20, filter)
+#sample_sw, sample_no_sw = sample_words(data_sw, data_no_sw, 500, filter)
 
-print(sample1.keys())
-print(len(sample1.keys()))
+#print(sample1.keys())
+#print(len(sample1.keys()))
 
-words, e_dists, s1_cosines, s2_cosines = get_compare_pairs(sample1, sample2, 10)
-print(words, e_dists, s1_cosines, s2_cosines)
+words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(data_sw, data_no_sw, 800)
+#print(words, e_dists, s1_cosines, s2_cosines)
 #python
 #morphology final project etc etc
 
 r_with = linear_model.LinearRegression()
 r_without = linear_model.LinearRegression()
 
-r_with.fit(e_dists, s1_cosines)
-r_without.fit(e_dists, s2_cosines)
+r_with.fit(e_dists, sw_cosines)
+r_without.fit(e_dists, no_sw_cosines)
 
-plt.scatter(e_dists, s1_cosines, color = 'red')
-plt.scatter(e_dists, s2_cosines, color = 'blue')
+#plot actual values for each set 
+plt.scatter(e_dists, sw_cosines, color = 'red', label = 'with subwords')
+plt.scatter(e_dists, no_sw_cosines, color = 'blue', label = 'without subwords')
 
+#plot regressor predictions for each dataset 
 plt.plot(e_dists, r_with.predict(e_dists), color = 'red')
 plt.plot(e_dists, r_without.predict(e_dists), color = 'blue')
 
+#get baselines: average cosine similarity for both models
+plt.plot(e_dists, [sum(sw_cosines)/len(sw_cosines)]*len(e_dists),\
+     color = 'pink', label = 'baseline with sw')
+plt.plot(e_dists, [sum(no_sw_cosines)/len(no_sw_cosines)]*len(e_dists), \
+    color = 'teal', label = 'baseline without sw')
+
+plt.title('cosine similarity predicted by edit distance \n sample size of 1000 word, 800 comparisons')
+plt.xlabel('edit distance')
+plt.ylabel('cosine similarity')
+plt.legend()
 plt.show()
 
 
