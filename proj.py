@@ -88,13 +88,11 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
 
 # ------------------------------- LINA'S MAIN -----------------------------------------------------
 
-data_set_no_sw = load_vectors("wiki-news-300d-1M.vec", 0.5)
-data_set_sw = load_vectors("wiki-news-300d-1M-subword.vec", 0.5)
 
-sample_sw, sample_no_sw = sample_words(data1, data2, 10, filter)
+samples_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 1)
+samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 1)
 
-write_to_file("sample_sw.vec", sample_sw)
-write_to_file("sample_no_sw.vec", sample_no_sw)
+
 
 # ------------------------------- ISAAC'S MAIN -----------------------------------------------------
 
