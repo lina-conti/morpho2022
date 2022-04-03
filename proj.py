@@ -89,7 +89,7 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
 
 # ------------------------------- R^2 SCORES MAIN -----------------------------------------------------
 
-'''
+
 samples_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 1)
 samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 1)
 
@@ -103,3 +103,37 @@ r_without.fit(X_train_no_sw, y_train_no_sw)
 
 print(f"R^2 with subword: {r_with.score(X_test_sw, y_test_sw)}")
 print(f"R^2 without subword: {r_with.score(X_test_no_sw, y_test_no_sw)}")
+
+# ------------------------------- PLOT MAIN -----------------------------------------------------
+
+
+data_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", 1)
+data_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", 1)
+
+words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(data_sw, data_no_sw, 800)
+
+r_with = linear_model.LinearRegression()
+r_without = linear_model.LinearRegression()
+
+r_with.fit(e_dists, sw_cosines)
+r_without.fit(e_dists, no_sw_cosines)
+
+#plot actual values for each set
+plt.scatter(e_dists, sw_cosines, color = 'red', label = 'with subwords')
+plt.scatter(e_dists, no_sw_cosines, color = 'blue', label = 'without subwords')
+
+#plot regressor predictions for each dataset
+plt.plot(e_dists, r_with.predict(e_dists), color = 'red')
+plt.plot(e_dists, r_without.predict(e_dists), color = 'blue')
+
+#get baselines: average cosine similarity for both models
+plt.plot(e_dists, [sum(sw_cosines)/len(sw_cosines)]*len(e_dists),\
+     color = 'pink', label = 'baseline with sw')
+plt.plot(e_dists, [sum(no_sw_cosines)/len(no_sw_cosines)]*len(e_dists), \
+    color = 'teal', label = 'baseline without sw')
+
+plt.title('cosine similarity predicted by edit distance \n sample size of 1000 word, 800 comparisons')
+plt.xlabel('edit distance')
+plt.ylabel('cosine similarity')
+plt.legend()
+plt.show()
