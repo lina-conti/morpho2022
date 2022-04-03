@@ -94,9 +94,13 @@ samples_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 1)
 samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 1)
 
 
-
 r_with = linear_model.LinearRegression()
 r_without = linear_model.LinearRegression()
+
+words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(samples_no_sw, samples_set_sw, 500)
+
+X_train_sw, X_test_sw, y_train_sw, y_test_sw = train_test_split(e_dists, sw_cosines, test_size=0.2, random_state=42)
+X_train_no_sw, X_test_no_sw, y_train_no_sw, y_test_no_sw = train_test_split(e_dists, no_sw_cosines, test_size=0.2, random_state=42)
 
 r_with.fit(X_train_sw, y_train_sw)
 r_without.fit(X_train_no_sw, y_train_no_sw)
@@ -107,8 +111,8 @@ print(f"R^2 without subword: {r_with.score(X_test_no_sw, y_test_no_sw)}")
 # ------------------------------- PLOT MAIN -----------------------------------------------------
 
 
-data_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", 1)
-data_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", 1)
+data_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 1)
+data_sw = load_vectors("morpho2022/sample_sw.vec", 1)
 
 words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(data_sw, data_no_sw, 800)
 
