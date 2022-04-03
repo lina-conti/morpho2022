@@ -97,7 +97,7 @@ samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 1)
 r_with = linear_model.LinearRegression()
 r_without = linear_model.LinearRegression()
 
-words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(samples_no_sw, samples_set_sw, 500)
+words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(samples_no_sw, samples_set_sw, 800)
 
 X_train_sw, X_test_sw, y_train_sw, y_test_sw = train_test_split(e_dists, sw_cosines, test_size=0.2, random_state=42)
 X_train_no_sw, X_test_no_sw, y_train_no_sw, y_test_no_sw = train_test_split(e_dists, no_sw_cosines, test_size=0.2, random_state=42)
@@ -108,8 +108,30 @@ r_without.fit(X_train_no_sw, y_train_no_sw)
 print(f"R^2 with subword: {r_with.score(X_test_sw, y_test_sw)}")
 print(f"R^2 without subword: {r_with.score(X_test_no_sw, y_test_no_sw)}")
 
+
+# ------------------------------- HISTOGRAMS -----------------------------------------------------
+
+plt.hist(e_dists)
+plt.title('Distribution of edit distances for 800 word pairs from a sample of 1000 words')
+plt.xlabel('edit distance')
+plt.ylabel('number of word pairs')
+plt.show()
+
+plt.hist(sw_cosines)
+plt.title('Distribution of cosine similarities of vectors including subword information for 800 word pairs from a sample of 1000 words')
+plt.xlabel('cosine similarity')
+plt.ylabel('number of word pairs')
+plt.show()
+
+plt.hist(no_sw_cosines)
+plt.title('Distribution of cosine similarities of vectors not including subword information for 800 word pairs from a sample of 1000 words')
+plt.xlabel('cosine similarity')
+plt.ylabel('number of word pairs')
+plt.show()
+
 # ------------------------------- PLOT MAIN -----------------------------------------------------
 
+"""
 
 data_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 1)
 data_sw = load_vectors("morpho2022/sample_sw.vec", 1)
@@ -141,3 +163,5 @@ plt.xlabel('edit distance')
 plt.ylabel('cosine similarity')
 plt.legend()
 plt.show()
+
+"""
