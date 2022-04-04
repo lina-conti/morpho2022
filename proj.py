@@ -90,8 +90,8 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
 # ------------------------------- R^2 SCORES MAIN -----------------------------------------------------
 
 
-samples_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 1)
-samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 1)
+samples_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", 1)
+samples_set_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", 1)
 
 
 r_with = linear_model.LinearRegression()
@@ -117,13 +117,13 @@ plt.xlabel('edit distance')
 plt.ylabel('number of word pairs')
 plt.show()
 
-plt.hist(sw_cosines)
+plt.hist(sw_cosines, bins = 50)
 plt.title('Distribution of cosine similarities of vectors including subword information for 800 word pairs from a sample of 1000 words')
 plt.xlabel('cosine similarity')
 plt.ylabel('number of word pairs')
 plt.show()
 
-plt.hist(no_sw_cosines)
+plt.hist(no_sw_cosines, bins = 50)
 plt.title('Distribution of cosine similarities of vectors not including subword information for 800 word pairs from a sample of 1000 words')
 plt.xlabel('cosine similarity')
 plt.ylabel('number of word pairs')
