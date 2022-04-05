@@ -87,17 +87,35 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
 
     return words, edit_distance, s1_cosine_dists, s2_cosine_dists
 
+def full_compare(sample: dict):
+    '''runs a comprehensive comparison between every unique pair of words in a sample. 
+    returns the edit distances and cosine similarities'''
+    words_a = sample.keys()
+    words_b = sample.keys()
+    e_dists = []
+    cosine_dists = []
+    for i, worda in enumerate(words_a):
+        for wordb in list(words_b)[i:]:
+            if wordb != worda:
+                e_dists.append(editdistance.distance(worda, wordb))
+                cosine_dists.append(cosine(sample[worda], sample[wordb]))
+    return(e_dists, cosine_dists)
+
 # ------------------------------- R^2 SCORES MAIN -----------------------------------------------------
 
 
-samples_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", 1)
-samples_set_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", 1)
+samples_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", .5)
+samples_set_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", .5)
 
 
 r_with = linear_model.LinearRegression()
 r_without = linear_model.LinearRegression()
 
 words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(samples_no_sw, samples_set_sw, 800)
+
+#test new compare function
+e_dist_with, cos_with = full_compare(samples_set_sw)
+e_dist_without, cos_without = full_compare(samples_no_sw)
 
 X_train_sw, X_test_sw, y_train_sw, y_test_sw = train_test_split(e_dists, sw_cosines, test_size=0.2, random_state=42)
 X_train_no_sw, X_test_no_sw, y_train_no_sw, y_test_no_sw = train_test_split(e_dists, no_sw_cosines, test_size=0.2, random_state=42)
@@ -117,14 +135,16 @@ plt.xlabel('edit distance')
 plt.ylabel('number of word pairs')
 plt.show()
 
-plt.hist(sw_cosines, bins = 50)
-plt.title('Distribution of cosine similarities of vectors including subword information for 800 word pairs from a sample of 1000 words')
+plt.hist(cos_with, bins = 50) #results of full_compare
+#plt.hist(sw_cosines, bins = 50) #results of random compare
+plt.title('Full distribution of cosine similarities for a 500 word sample, subword information included')
 plt.xlabel('cosine similarity')
 plt.ylabel('number of word pairs')
 plt.show()
 
-plt.hist(no_sw_cosines, bins = 50)
-plt.title('Distribution of cosine similarities of vectors not including subword information for 800 word pairs from a sample of 1000 words')
+plt.hist(cos_without, bins = 50) #full compare
+#plt.hist(no_sw_cosines, bins = 50) #random compare
+plt.title('Full distribution of subword information for a 500 word sample, no subword information')
 plt.xlabel('cosine similarity')
 plt.ylabel('number of word pairs')
 plt.show()
