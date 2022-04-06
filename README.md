@@ -1,5 +1,7 @@
 # Advanced Morphology Project 2022
 
+TEEEEST
+
 _:warning: This repository is a work in progress._
 
 The goal of this project is to study fasttext word embeddings with and without sub-word information.
