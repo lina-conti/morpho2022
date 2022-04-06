@@ -100,12 +100,25 @@ def full_compare(sample: dict):
                 cosine_dists.append(cosine(sample[worda], sample[wordb]))
     return(e_dists, cosine_dists)
 
+# ------------------------------- WRITING OUR SAMPLES TO A FILE -----------------------------------------------------
 
-# ------------------------------- WRITING OUR SAMPLE TO A FILE -----------------------------------------------------
+# top 100 000 vectors
+top_vectors_sw = load_vectors("wiki-news-300d-1M-subword.vec", 0.1)
+top_vectors_no_sw = load_vectors("wiki-news-300d-1M.vec", 0.1)
+
+# samples 1000 words from the 100 000 (twice)
+sample_1_sw, sample_1_no_sw = sample_words(top_vectors_sw, top_vectors_no_sw, 1000, filter)
+sample_2_sw, sample_2_no_sw = sample_words(top_vectors_sw, top_vectors_no_sw, 1000, filter)
+
+# writes the samples to files to keep them for future use
+write_to_file("morpho2022/sample_1_sw.vec", sample_1_sw)
+write_to_file("morpho2022/sample_1_no_sw.vec", sample_1_no_sw)
+write_to_file("morpho2022/sample_2_sw.vec", sample_2_sw)
+write_to_file("morpho2022/sample_2_no_sw.vec", sample_2_no_sw)
 
 # ------------------------------- R^2 SCORES MAIN -----------------------------------------------------
 ''' Now using full_compare '''
-
+"""
 samples_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", 0.1)
 samples_set_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", 0.1)
 
@@ -125,10 +138,10 @@ r_without.fit(X_train_no_sw, y_train_no_sw)
 
 print(f"R^2 with subword: {r_with.score(X_test_sw, y_test_sw)}")
 print(f"R^2 without subword: {r_with.score(X_test_no_sw, y_test_no_sw)}")
-
+"""
 
 # ------------------------------- HISTOGRAMS -----------------------------------------------------
-
+"""
 plt.hist(e_dists)
 plt.title('Distribution of edit distances for 800 word pairs from a sample of 1000 words')
 plt.xlabel('edit distance')
@@ -147,7 +160,7 @@ plt.hist(no_sw_cosines, bins = 50) #random compare
 plt.title('Full distribution of subword information for a 500 word sample, no subword information')
 plt.xlabel('cosine similarity')
 plt.ylabel('number of word pairs')
-plt.show()
+plt.show()"""
 
 # ------------------------------- PLOT MAIN -----------------------------------------------------
 
