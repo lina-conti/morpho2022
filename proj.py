@@ -104,7 +104,7 @@ def full_compare(sample: dict):
 
 # ------------------------------- WRITING OUR SAMPLES TO A FILE -----------------------------------------------------
 
-# top 100 000 vectors
+"""# top 100 000 vectors
 top_vectors_sw = load_vectors("wiki-news-300d-1M-subword.vec", 0.1)
 top_vectors_no_sw = load_vectors("wiki-news-300d-1M.vec", 0.1)
 
@@ -117,10 +117,10 @@ write_to_file("morpho2022/sample_1_sw.vec", sample_1_sw)
 write_to_file("morpho2022/sample_1_no_sw.vec", sample_1_no_sw)
 write_to_file("morpho2022/sample_2_sw.vec", sample_2_sw)
 write_to_file("morpho2022/sample_2_no_sw.vec", sample_2_no_sw)
+"""
 
 # ------------------------------- R^2 SCORES MAIN -----------------------------------------------------
-''' Now using full_compare '''
-"""
+
 samples_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", 0.1)
 samples_set_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", 0.1)
 
@@ -140,7 +140,7 @@ r_without.fit(X_train_no_sw, y_train_no_sw)
 
 print(f"R^2 with subword: {r_with.score(X_test_sw, y_test_sw)}")
 print(f"R^2 without subword: {r_with.score(X_test_no_sw, y_test_no_sw)}")
-"""
+
 
 # ------------------------------- HISTOGRAMS -----------------------------------------------------
 """
