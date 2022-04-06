@@ -73,8 +73,7 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
     number of words to be compared'''
     words = []
     edit_distance = []
-    s1_cosine_dists = []
-    s2_cosine_dists = []
+    cosine_dists = []
 
     for i in range(0, num_comparisons):
         w1 = random.sample(sample1.keys(), 1)[0] #random.sample returns a list of length 1, we take the item
@@ -82,11 +81,10 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
         if w1 != w2:
             words.append((w1, w2))
             edit_distance.append(editdistance.distance(w1, w2))
-            s1_cosine_dists.append(cosine(sample1[w1], sample1[w2]))
-            s2_cosine_dists.append(cosine(sample2[w1], sample2[w2]))
+            cosine_dists.append(cosine(sample1[w1], sample2[w2]))
     edit_distance = np.array(edit_distance)[:, np.newaxis]
 
-    return words, edit_distance, s1_cosine_dists, s2_cosine_dists
+    return words, edit_distance, cosine_dists
 
 def full_compare(sample: dict):
     '''runs a comprehensive comparison between every unique pair of words in a sample.
@@ -111,7 +109,7 @@ def full_compare(sample: dict):
 samples_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", 0.1)
 samples_set_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", 0.1)
 
-words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(samples_set_sw, samples_no_sw, 800)
+words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(samples_set_sw, samples_no_sw, 5000)
 
 r_with = linear_model.LinearRegression()
 r_without = linear_model.LinearRegression()
