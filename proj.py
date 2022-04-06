@@ -78,11 +78,12 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
 
     for i in range(0, num_comparisons):
         w1 = random.sample(sample1.keys(), 1)[0] #random.sample returns a list of length 1, we take the item
-        w2 = random.sample(sample1.keys(), 1)[0]
-        words.append((w1, w2))
-        edit_distance.append(editdistance.distance(w1, w2))
-        s1_cosine_dists.append(cosine(sample1[w1], sample2[w2]))
-        s2_cosine_dists.append(cosine(sample2[w1], sample2[w2]))
+        w2 = random.sample(sample2.keys(), 1)[0]
+        if w1 != w2:
+            words.append((w1, w2))
+            edit_distance.append(editdistance.distance(w1, w2))
+            s1_cosine_dists.append(cosine(sample1[w1], sample1[w2]))
+            s2_cosine_dists.append(cosine(sample2[w1], sample2[w2]))
     edit_distance = np.array(edit_distance)[:, np.newaxis]
 
     return words, edit_distance, s1_cosine_dists, s2_cosine_dists
@@ -101,14 +102,16 @@ def full_compare(sample: dict):
                 cosine_dists.append(cosine(sample[worda], sample[wordb]))
     return(e_dists, cosine_dists)
 
+
 # ------------------------------- WRITING OUR SAMPLE TO A FILE -----------------------------------------------------
 
 # ------------------------------- R^2 SCORES MAIN -----------------------------------------------------
 ''' Now using full_compare '''
 
-samples_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 0.1)
-samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 0.1)
+samples_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", 0.1)
+samples_set_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", 0.1)
 
+words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(samples_set_sw, samples_no_sw, 800)
 
 r_with = linear_model.LinearRegression()
 r_without = linear_model.LinearRegression()
@@ -127,27 +130,27 @@ print(f"R^2 without subword: {r_with.score(X_test_no_sw, y_test_no_sw)}")
 
 
 # ------------------------------- HISTOGRAMS -----------------------------------------------------
-"""
+
 plt.hist(e_dists)
 plt.title('Distribution of edit distances for 800 word pairs from a sample of 1000 words')
 plt.xlabel('edit distance')
 plt.ylabel('number of word pairs')
 plt.show()
 
-plt.hist(cos_with, bins = 50) #results of full_compare
-#plt.hist(sw_cosines, bins = 50) #results of random compare
+#plt.hist(cos_with, bins = 50) #results of full_compare
+plt.hist(sw_cosines, bins = 50) #results of random compare
 plt.title('Full distribution of cosine similarities for a 500 word sample, subword information included')
 plt.xlabel('cosine similarity')
 plt.ylabel('number of word pairs')
 plt.show()
 
-plt.hist(cos_without, bins = 50) #full compare
-#plt.hist(no_sw_cosines, bins = 50) #random compare
+#plt.hist(cos_without, bins = 50) #full compare
+plt.hist(no_sw_cosines, bins = 50) #random compare
 plt.title('Full distribution of subword information for a 500 word sample, no subword information')
 plt.xlabel('cosine similarity')
 plt.ylabel('number of word pairs')
 plt.show()
-"""
+
 # ------------------------------- PLOT MAIN -----------------------------------------------------
 
 """
