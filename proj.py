@@ -88,7 +88,7 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
     return words, edit_distance, s1_cosine_dists, s2_cosine_dists
 
 def full_compare(sample: dict):
-    '''runs a comprehensive comparison between every unique pair of words in a sample. 
+    '''runs a comprehensive comparison between every unique pair of words in a sample.
     returns the edit distances and cosine similarities'''
     words_a = sample.keys()
     words_b = sample.keys()
@@ -101,24 +101,23 @@ def full_compare(sample: dict):
                 cosine_dists.append(cosine(sample[worda], sample[wordb]))
     return(e_dists, cosine_dists)
 
+# ------------------------------- WRITING OUR SAMPLE TO A FILE -----------------------------------------------------
+
 # ------------------------------- R^2 SCORES MAIN -----------------------------------------------------
+''' Now using full_compare '''
 
-
-samples_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", .5)
-samples_set_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", .5)
+samples_no_sw = load_vectors("morpho2022/sample_no_sw.vec", 0.1)
+samples_set_sw = load_vectors("morpho2022/sample_sw.vec", 0.1)
 
 
 r_with = linear_model.LinearRegression()
 r_without = linear_model.LinearRegression()
 
-words, e_dists, sw_cosines, no_sw_cosines = get_compare_pairs(samples_no_sw, samples_set_sw, 800)
-
-#test new compare function
 e_dist_with, cos_with = full_compare(samples_set_sw)
 e_dist_without, cos_without = full_compare(samples_no_sw)
 
-X_train_sw, X_test_sw, y_train_sw, y_test_sw = train_test_split(e_dists, sw_cosines, test_size=0.2, random_state=42)
-X_train_no_sw, X_test_no_sw, y_train_no_sw, y_test_no_sw = train_test_split(e_dists, no_sw_cosines, test_size=0.2, random_state=42)
+X_train_sw, X_test_sw, y_train_sw, y_test_sw = train_test_split(np.array(e_dist_with)[:, np.newaxis], cos_with, test_size=0.2, random_state=42)
+X_train_no_sw, X_test_no_sw, y_train_no_sw, y_test_no_sw = train_test_split(np.array(e_dist_without)[:, np.newaxis], cos_without, test_size=0.2, random_state=42)
 
 r_with.fit(X_train_sw, y_train_sw)
 r_without.fit(X_train_no_sw, y_train_no_sw)
@@ -128,7 +127,7 @@ print(f"R^2 without subword: {r_with.score(X_test_no_sw, y_test_no_sw)}")
 
 
 # ------------------------------- HISTOGRAMS -----------------------------------------------------
-
+"""
 plt.hist(e_dists)
 plt.title('Distribution of edit distances for 800 word pairs from a sample of 1000 words')
 plt.xlabel('edit distance')
@@ -148,7 +147,7 @@ plt.title('Full distribution of subword information for a 500 word sample, no su
 plt.xlabel('cosine similarity')
 plt.ylabel('number of word pairs')
 plt.show()
-
+"""
 # ------------------------------- PLOT MAIN -----------------------------------------------------
 
 """
