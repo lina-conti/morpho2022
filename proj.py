@@ -120,7 +120,7 @@ write_to_file("morpho2022/sample_2_no_sw.vec", sample_2_no_sw)
 
 # ------------------------------- R^2 SCORES MAIN -----------------------------------------------------
 ''' Now using full_compare '''
-
+"""
 samples_no_sw = load_vectors("morpho_project/morpho2022/sample_no_sw.vec", 0.1)
 samples_set_sw = load_vectors("morpho_project/morpho2022/sample_sw.vec", 0.1)
 
@@ -140,10 +140,10 @@ r_without.fit(X_train_no_sw, y_train_no_sw)
 
 print(f"R^2 with subword: {r_with.score(X_test_sw, y_test_sw)}")
 print(f"R^2 without subword: {r_with.score(X_test_no_sw, y_test_no_sw)}")
-
+"""
 
 # ------------------------------- HISTOGRAMS -----------------------------------------------------
-
+"""
 plt.hist(e_dists)
 plt.title('Distribution of edit distances for 800 word pairs from a sample of 1000 words')
 plt.xlabel('edit distance')
@@ -162,7 +162,7 @@ plt.hist(no_sw_cosines, bins = 50) #random compare
 plt.title('Full distribution of subword information for a 500 word sample, no subword information')
 plt.xlabel('cosine similarity')
 plt.ylabel('number of word pairs')
-plt.show()
+plt.show()"""
 
 # ------------------------------- PLOT MAIN -----------------------------------------------------
 
