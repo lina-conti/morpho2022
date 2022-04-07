@@ -1,6 +1,13 @@
 import functions
 from functions import load_vectors, get_compare_pairs_ed
+import numpy as np
+import io
+import re
+import random
 from sklearn import linear_model
+from sklearn.model_selection import train_test_split
+from matplotlib import pyplot as plt
+
 
 # ------------------------------- R^2 SCORES EUCLIDIAN DISTANCES -----------------------------------------------------
 
