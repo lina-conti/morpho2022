@@ -95,7 +95,7 @@ def words_to_features(f_vectors, f_wordpairs):
     for w1, w2 in word_pairs:
         edit_d.append(editdistance.distance(w1, w2))
         cosine_s.append(cosine(vectors[w1], vectors[w2]))
-        euclid_d.append(squared_euclidian_distance(vectors[w1], vectors[w2))
+        euclid_d.append(squared_euclidian_distance(vectors[w1], vectors[w2]))
     return word_pairs, edit_d, cosine_s, euclid_d
 
 
@@ -137,12 +137,12 @@ def sample_wordpairs(pairs_file, vec_file_a, vec_file_b):
         sample_a[word_2] = vecs_a[word_2]
 
         sample_b[word_1] = vecs_b[word_1]
-        sample_b[word_2] = vecs_b[word_2] 
+        sample_b[word_2] = vecs_b[word_2]
 
-        words.append((word_1, word_2)) 
+        words.append((word_1, word_2))
 
-    return sample_a, sample_b, words      
-    
+    return sample_a, sample_b, words
+
 
 # sample is a dictionary from words to vectors
 # it will be written to a .vec file following fasttext conventions
