@@ -91,7 +91,7 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
 
     return words, edit_distance, cosine_dists
 
-def get_compare_pairs_ed(sample1:dict, sample2:dict, num_comparisons):
+def get_compare_pairs_ed(sample1:dict, sample2:dict, num_comparisons, return_nparray = True):
     '''get the edit distance and euclidian distances in both datasets for a specified
     number of words to be compared'''
     words = []
@@ -105,7 +105,8 @@ def get_compare_pairs_ed(sample1:dict, sample2:dict, num_comparisons):
             words.append((w1, w2))
             edit_distance.append(editdistance.distance(w1, w2))
             eucl_dists.append(squared_euclidian_distance(sample1[w1], sample2[w2]))
-    edit_distance = np.array(edit_distance)[:, np.newaxis]
+    if return_nparray: 
+        edit_distance = np.array(edit_distance)[:, np.newaxis]
 
     return words, edit_distance, eucl_dists
 
