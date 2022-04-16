@@ -56,7 +56,6 @@ def get_catvar_pairs(fname):
         words = line.split('#')
         for i in range (len(words)):
             words[i] = words[i].split("_")[0]
-        for i in range (len(words)):
     f.close()
 
 def filter(word):
