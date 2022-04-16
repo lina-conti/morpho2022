@@ -49,9 +49,15 @@ def filter_catvar(fname):
     f_original.close()
     f_new.close()
 
-def read_catvar(fname):
-    ''' reads the whole catvar file and returns a list of lists of related words '''
-    pass
+def get_catvar_pairs(fname):
+    ''' reads a catvar file and returns all pairs of morphologically related but not identical words it could find '''
+    f = open(fname)
+    for line in f:
+        words = line.split('#')
+        for i in range (len(words)):
+            words[i] = words[i].split("_")[0]
+        for i in range (len(words)):
+    f.close()
 
 def filter(word):
     punct = re.compile('[^a-z]')
