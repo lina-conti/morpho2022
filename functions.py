@@ -52,12 +52,31 @@ def filter_catvar(fname):
 def get_catvar_pairs(fname):
     ''' reads a catvar file and returns all pairs of morphologically related but not identical words it could find '''
     f = open(fname)
+    pairs = []
     for line in f:
         words = line.split('#')
         for i in range (len(words)):
             words[i] = words[i].split("_")[0]
-        for i in range (len(words)):
+        for i in range (len(words)-1):
+            for j in range(i+1, len(words)):
+                if words[i] != words[j]:
+                    if (words[i], words[j]) not in pairs and (words[j], words[i]) not in pairs:
+                        pairs.append((words[i], words[j]))
     f.close()
+    random.shuffle(pairs)
+    return pairs
+
+def write_word_pairs(fname, pairs):
+    ''' takes a list of word pairs and writes them to a file '''
+    f = open(fname, "w")
+    f.write(str(len(pairs)))
+    for w1, w2 in pairs:
+        f.write(w1 + " " + w2)
+    f.close()
+
+def read_word_pairs(fname):
+    ''' reads word pairs from a file and returns a list of word pairs, a list of edit distances, a list of cosine similarities and a list of euclidian distances '''
+    pass
 
 def filter(word):
     punct = re.compile('[^a-z]')
@@ -125,7 +144,7 @@ def get_compare_pairs_ed(sample1:dict, sample2:dict, num_comparisons, return_npa
             words.append((w1, w2))
             edit_distance.append(editdistance.distance(w1, w2))
             eucl_dists.append(squared_euclidian_distance(sample1[w1], sample2[w2]))
-    if return_nparray: 
+    if return_nparray:
         edit_distance = np.array(edit_distance)[:, np.newaxis]
 
     return words, edit_distance, eucl_dists
