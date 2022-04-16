@@ -57,14 +57,6 @@ def get_catvar_pairs(fname):
         words = line.split('#')
         for i in range (len(words)):
             words[i] = words[i].split("_")[0]
-<<<<<<< HEAD
-        for i in range (len(words)-1):
-            for j in range(i+1, len(words)):
-                if words[i] != words[j]:
-                    if (words[i], words[j]) not in pairs and (words[j], words[i]) not in pairs:
-                        pairs.append((words[i], words[j]))
-=======
->>>>>>> df4628949afc508c1f0b901d765d6ad26b9eae6f
     f.close()
     random.shuffle(pairs)
     return pairs
@@ -102,6 +94,29 @@ def sample_words(with_sub_word, no_sub_word, n, filter):
         sample_sw[word] = with_sub_word[word]
         sample_no_sw[word] = no_sub_word[word]
     return sample_sw, sample_no_sw
+
+def sample_wordpairs(pairs_file, vec_file_a, vec_file_b):
+    vecs_a = load_vectors(vec_file_a)
+    vecs_b = load_vectors(vec_file_b)
+    pairs = read_word_pairs(pairs_file)
+
+    sample_a = {}
+    sample_b = {}
+    words = []
+
+    for word_1, word_2 in pairs:
+        if word_1 not in vecs_a or word_2 not in vecs_b:
+            continue
+        sample_a[word_1] = vecs_a[word_1]
+        sample_a[word_2] = vecs_a[word_2]
+
+        sample_b[word_1] = vecs_b[word_1]
+        sample_b[word_2] = vecs_b[word_2] 
+
+        words.append((word_1, word_2)) 
+
+    return sample_a, sample_b, words      
+    
 
 # sample is a dictionary from words to vectors
 # it will be written to a .vec file following fasttext conventions
