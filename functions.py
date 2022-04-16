@@ -21,7 +21,6 @@ def squared_euclidian_distance(veca, vecb):
     return res
 
 
-
 # creates a dictionary ([str -> map object]) that maps a word to its vector representation
 # by reading fname file (which should be in the .vec format of fasttext)
 # proportion indicates the proportion of word vectors we want to read from the file (a float between 0 and 1)
@@ -38,6 +37,21 @@ def load_vectors(fname, proportion):
             break
     fin.close()
     return data
+
+def filter_catvar(fname):
+    ''' creates a copy of the catvar file containing only the lines that contain derivational families and not a single word'''
+    f_original = open(fname, 'r')
+    f_new = open("derivational_families.txt", 'w')
+    for line in f_original:
+        words = line.split('#')
+        if len(words) > 1:
+            f_new.write(line)
+    f_original.close()
+    f_new.close()
+
+def read_catvar(fname):
+    ''' reads the whole catvar file and returns a list of lists of related words '''
+    pass
 
 def filter(word):
     punct = re.compile('[^a-z]')
