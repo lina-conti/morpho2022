@@ -84,6 +84,21 @@ def read_word_pairs(fname):
     f.close()
     return pairs
 
+def words_to_features(f_vectors, f_wordpairs):
+    ''' reads a file containing vectors
+    and computes cosine similarity, euclidian distance and edit distance for the word pairs in a word pair file '''
+    vectors = load_vectors(f_vectors, 1.)
+    word_pairs = read_word_pairs(f_wordpairs)
+    edit_d = []
+    cosine_s = []
+    euclid_d = []
+    for w1, w2 in word_pairs:
+        edit_d.append(editdistance.distance(w1, w2))
+        cosine_s.append(cosine(vectors[w1], vectors[w2]))
+        euclid_d.append(squared_euclidian_distance(vectors[w1], vectors[w2))
+    return word_pairs, edit_d, cosine_s, euclid_d
+
+
 def filter(word):
     punct = re.compile('[^a-z]')
     if punct.search(word):
