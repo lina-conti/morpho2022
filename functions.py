@@ -57,14 +57,11 @@ def get_catvar_pairs(fname):
         words = line.split('#')
         for i in range (len(words)):
             words[i] = words[i].split("_")[0]
-<<<<<<< HEAD
         for i in range (len(words)-1):
             for j in range(i+1, len(words)):
                 if words[i] != words[j]:
                     if (words[i], words[j]) not in pairs and (words[j], words[i]) not in pairs:
                         pairs.append((words[i], words[j]))
-=======
->>>>>>> df4628949afc508c1f0b901d765d6ad26b9eae6f
     f.close()
     random.shuffle(pairs)
     return pairs
@@ -72,14 +69,20 @@ def get_catvar_pairs(fname):
 def write_word_pairs(fname, pairs):
     ''' takes a list of word pairs and writes them to a file '''
     f = open(fname, "w")
-    f.write(str(len(pairs)))
+    f.write(str(len(pairs)) + "\n")
     for w1, w2 in pairs:
-        f.write(w1 + " " + w2)
+        f.write(w1 + " " + w2 + "\n")
     f.close()
 
 def read_word_pairs(fname):
     ''' reads word pairs from a file and returns a list of word pairs, a list of edit distances, a list of cosine similarities and a list of euclidian distances '''
-    pass
+    f = open(fname)
+    pairs = []
+    for line in f:
+        words = line.split(' ')
+        pairs.append(tuple(words))
+    f.close()
+    return pairs
 
 def filter(word):
     punct = re.compile('[^a-z]')
@@ -129,7 +132,7 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons, return_nparra
             words.append((w1, w2))
             edit_distance.append(editdistance.distance(w1, w2))
             cosine_dists.append(cosine(sample1[w1], sample2[w2]))
-    if return_nparray: 
+    if return_nparray:
         edit_distance = np.array(edit_distance)[:, np.newaxis]
 
     return words, edit_distance, cosine_dists
