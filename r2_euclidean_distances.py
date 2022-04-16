@@ -51,3 +51,10 @@ print(f'slope: {sp_with.slope}\n\
 print(f'slope: {sp_without.slope}\n\
      r2 score for no subword model: {sp_without.rvalue}\n\
          pval for no subword model: {sp_without.pvalue}')
+
+plt.plot(sp_sw_edists, sp_with.intercept + sp_with.slope*np.array(sp_sw_edists), 'r', label = 'euclidean distance with subwords')
+plt.plot(sp_no_sw_edists, sp_without.intercept + sp_without.slope*np.array(sp_no_sw_edists),'b', label = 'euclidean distance without subwords')
+plt.plot(sw_edists, r_with.predict(sw_edists), color = 'pink', label = 'sklearn with subword informtation')
+plt.plot(no_sw_edists, r_without.predict(no_sw_edists), color = 'teal', label = 'sklearn without subword informtation')
+plt.legend()
+plt.show()

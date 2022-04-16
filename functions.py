@@ -92,7 +92,7 @@ def write_to_file(fname, sample):
             f.write(f" {component}")
     f.close()
 
-def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
+def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons, return_nparray=True):
     '''get the edit distance and cosine similarities in both datasets for a specified
     number of words to be compared'''
     words = []
@@ -106,7 +106,8 @@ def get_compare_pairs(sample1:dict, sample2:dict, num_comparisons):
             words.append((w1, w2))
             edit_distance.append(editdistance.distance(w1, w2))
             cosine_dists.append(cosine(sample1[w1], sample2[w2]))
-    edit_distance = np.array(edit_distance)[:, np.newaxis]
+    if return_nparray: 
+        edit_distance = np.array(edit_distance)[:, np.newaxis]
 
     return words, edit_distance, cosine_dists
 
