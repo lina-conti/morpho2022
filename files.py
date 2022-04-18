@@ -13,7 +13,7 @@ write_to_file("morpho_project/morpho2022/sample_1_no_sw.vec", sample_1_no_sw)
 write_to_file("morpho_project/morpho2022/sample_2_sw.vec", sample_2_sw)
 write_to_file("morpho_project/morpho2022/sample_2_no_sw.vec", sample_2_no_sw)
 '''
-test_words = read_word_pairs('related_pairs.txt')
+#test_words = read_word_pairs('related_pairs.txt')
 test_with, test_without, test_words = sample_wordpairs('related_pairs.txt', 'wiki-news-300d-1M-subword.vec', 
 'wiki-news-300d-1M.vec', prop = 0.1)
 
