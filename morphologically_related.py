@@ -8,5 +8,7 @@ from matplotlib import pyplot as plt
 # pairs = get_catvar_pairs("derivational_families.txt")
 # write_word_pairs("related_pairs.txt", pairs)
 
+'''
 word_pairs, edit_d, cosine_s_sw, euclid_d_sw = words_to_features(TODO, TODO)
 word_pairs, edit_d, cosine_s_no_sw, euclid_d_no_sw = words_to_features(TODO, TODO)
+'''
