@@ -79,6 +79,7 @@ def read_word_pairs(fname):
     f = open(fname)
     pairs = []
     for line in f:
+        line = line.strip("\n")
         words = line.split(' ')
         pairs.append(tuple(words))
     f.close()
