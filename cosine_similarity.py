@@ -27,10 +27,10 @@ r2 score: {sp_without.rvalue}\n\
 pval: {sp_without.pvalue}')
 
 
-"""#plot actual values for each set
+#plot actual values for each set
 plt.scatter(sp_sw_edists, sp_sw_cos, color = 'red')
 plt.scatter(sp_no_sw_edists, sp_no_sw_cos, color = 'blue')
-"""
+
 plt.plot(sp_sw_edists, sp_with.intercept + sp_with.slope*np.array(sp_sw_edists), 'r', label = 'with subwords')
 plt.plot(sp_no_sw_edists, sp_without.intercept + sp_without.slope*np.array(sp_no_sw_edists),'b', label = 'without subwords')
 
