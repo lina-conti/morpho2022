@@ -6,7 +6,7 @@ We will be comparing pairs of words and trying to see how well their edit-distan
 
 We then did the same thing using euclidean distance instead of cosine similarity.
 
-We did all of this first using random pairs of words and then using only pairs of morphologically related words (taken from [catvar](https://github.com/nizarhabash1/catvar_).
+We did all of this first using random pairs of words and then using only pairs of morphologically related words (taken from [catvar](https://github.com/nizarhabash1/catvar_)).
 
 
 ## Python files: 
