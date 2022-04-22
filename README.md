@@ -1,12 +1,12 @@
 # Advanced Morphology Project 2022
 
-The goal of this project is to study fasttext word embeddings with and without sub-word information.
+The goal of this project is to study [fasttext](https://fasttext.cc/) word embeddings with and without sub-word information.
 
 We will be comparing pairs of words and trying to see how well their edit-distance correlates with the cosine similarity of their vector representations (with or without subword information). 
 
 We then did the same thing using euclidean distance instead of cosine similarity.
 
-We did all of this first using random pairs of words and then using only pairs of morphologically related words (taken from catvar[https://github.com/nizarhabash1/catvar]).
+We did all of this first using random pairs of words and then using only pairs of morphologically related words (taken from [catvar](https://github.com/nizarhabash1/catvar_).
 
 
 ## Python files: 
