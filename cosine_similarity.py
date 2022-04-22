@@ -42,7 +42,7 @@ plt.plot(no_sw_edists, [sum(no_sw_cosines)/len(no_sw_cosines)]*len(no_sw_edists)
     color = 'teal', label = 'baseline without sw')
 '''
 
-plt.title('Cosine similarity predicted from edit distance \n(10000 word pairs, from a sample 2000 words)')
+plt.title('Cosine similarity between the vector representation of random pairs of words predicted from their edit distance')
 plt.xlabel('edit distance')
 plt.ylabel('cosine similarity')
 plt.legend()

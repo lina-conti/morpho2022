@@ -49,7 +49,7 @@ plt.plot(no_sw_edists, [sum(no_sw_eucld)/len(no_sw_eucld)]*len(no_sw_edists), \
     color = 'teal', label = 'baseline without sw')
 """
 
-plt.title('Euclidean distance predicted by edit distance \n sample size of 2000 word, 10000 comparisons')
+plt.title('Euclidean distance between the vector representation of random pairs of words predicted from their edit distance')
 plt.xlabel('edit distance')
 plt.ylabel('euclidean distance')
 plt.legend()

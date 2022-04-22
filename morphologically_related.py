@@ -41,7 +41,7 @@ plt.plot(edit_d[:10000], sp_cosine_without.intercept + sp_cosine_without.slope*n
 plt.scatter(edit_d[:10000], cosine_s_sw[:10000], color = 'red')
 plt.scatter(edit_d[:10000], cosine_s_no_sw[:10000], color = 'blue')
 
-plt.title('cosine similarity predicted from edit distance \n sample size 10000 word pairs')
+plt.title('Cosine similarity between the vector representation of pairs of morphologically related words predicted from their edit distance')
 plt.xlabel('edit distance')
 plt.ylabel('cosine similarity')
 plt.legend()
@@ -56,7 +56,7 @@ plt.plot(edit_d[:10000], sp_euclid_without.intercept + sp_euclid_without.slope*n
 plt.scatter(edit_d[:10000], euclid_d_sw[:10000], color = 'red')
 plt.scatter(edit_d[:10000], euclid_d_no_sw[:10000], color = 'blue')
 
-plt.title('euclidean distance predicted from edit distance \n sample size 10000 word pairs')
+plt.title('Euclidean distance between the vector representation of pairs of morphologically related words predicted from their edit distance')
 plt.xlabel('edit distance')
 plt.ylabel('euclidean distance')
 plt.legend()
