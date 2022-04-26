@@ -10,11 +10,11 @@ from matplotlib import pyplot as plt
 import scipy.stats as sp
 
 #load the samples
-sw_sample_1 = load_vectors('morpho_project/morpho2022/sample_1_sw.vec', 1)
-sw_sample_2 = load_vectors('morpho_project/morpho2022/sample_2_sw.vec', 1)
+sw_sample_1 = load_vectors('sample_1_sw.vec', 1)
+sw_sample_2 = load_vectors('sample_2_sw.vec', 1)
 
-no_sw_sample_1 = load_vectors('morpho_project/morpho2022/sample_1_no_sw.vec', 1)
-no_sw_sample_2 = load_vectors('morpho_project/morpho2022/sample_2_no_sw.vec', 1)
+no_sw_sample_1 = load_vectors('sample_1_no_sw.vec', 1)
+no_sw_sample_2 = load_vectors('sample_2_no_sw.vec', 1)
 
 # ------------------------------- WITH SKLEARN -----------------------------------------------------
 
@@ -33,7 +33,7 @@ r_without.fit(X_train_no_sw, y_train_no_sw)
 
 print("SKLEARN\n")
 print(f"R^2 with subword: {r_with.score(X_test_sw, y_test_sw)}")
-print(f"R^2 without subword: {r_with.score(X_test_no_sw, y_test_no_sw)}")
+print(f"R^2 without subword: {r_without.score(X_test_no_sw, y_test_no_sw)}")
 
 # ------------------------------- WITH SCIPY -----------------------------------------------------
 
