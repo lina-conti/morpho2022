@@ -1,6 +1,6 @@
 # Advanced Morphology Project 2022
 
-The goal of this project is to study [fasttext](https://fasttext.cc/) word embeddings with and without sub-word information.
+The goal of this project is to study [fasttext](https://fasttext.cc/) word embeddings with and without sub-word information. Our final report can be found [here](https://github.com/lina-conti/morpho2022/blob/main/Conti_Murphy_final.pdf).
 
 We will be comparing pairs of words and trying to see how well their edit-distance correlates with the cosine similarity of their vector representations (with or without subword information). 
 
